@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.15)
+set(CMAKE_CXX_STANDARD 17)
+set(lib_name "audio")
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+aux_source_directory(. audio_src)
+link_libraries(-lasound)
+add_library(${lib_name} ${audio_src})
