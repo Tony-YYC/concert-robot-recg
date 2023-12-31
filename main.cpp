@@ -1,3 +1,4 @@
+#include "audio/sampler.hpp"
 #include "beat_recg/beat.hpp"
 #include "emo_recg/TRTModule.hpp"
 #include <mutex>
@@ -7,7 +8,12 @@
 
 class Recg {
 public:
-    Recg(): beat_recg(44100, 44100, t), trtmod("../assets/model.trt", t) {
+    Recg():
+        audio_smp(44100),
+        smp(44100,44100,audio_smp),
+        beat_recg(44100, 44100, t, audio_smp),
+        trtmod("../assets/model.trt", t, audio_smp) {
+        sleep(2);
         std::cout << t << "[Main][INFO]Main module start publishing result!" << std::endl;
     }
 
@@ -28,6 +34,8 @@ private:
     Timer t;
     float beat_result;
     int emo_result;
+    Sampler smp;
+    std::vector<float> audio_smp;
 };
 
 namespace py = pybind11;

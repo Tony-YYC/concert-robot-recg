@@ -10,6 +10,7 @@ Preprocess::Preprocess(int total_frame_size, int sample_rate, int frame_num, int
 
 void Preprocess::get_mfccs(const std::vector<float>& input_sample,
                            std::vector<std::vector<float>>& mfcc_result) {
+    mfcc_result.clear();
     for (int i = 0; i < frame_num_; ++i) {
         std::vector<float> temp_input;
         for (int j = 0; j < frame_size_; ++j) {

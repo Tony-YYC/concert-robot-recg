@@ -26,7 +26,7 @@ class Logger: public ILogger {
 
 class TensorRTModel {
 public:
-    explicit TensorRTModel(const std::string& modelPath,const Timer & timer);
+    explicit TensorRTModel(const std::string& modelPath,const Timer & timer,const std::vector<float> & audio_smp);
     ~TensorRTModel();
     int get_emo_result();
 
@@ -39,7 +39,7 @@ private:
     std::vector<float> audio_smp;
     std::vector<std::vector<float>> mfcc_serial;
     int emo_result;
-    Sampler smp;
+    const std::vector<float> & audio_smp_;
     Preprocess prec;
 
     std::string modelPath_;
@@ -49,10 +49,11 @@ private:
     float* input_buffer;
     float* output_buffer;
     const int input_size = sizeof(float) * 236 * 40;
-    const int output_size = sizeof(float) * 7;
+    const int output_size = sizeof(float) * 6;
     Logger g_logger;
 
     std::thread emo_thread_handle_;
     Timer timer_;
+    bool done;
 };
 #endif

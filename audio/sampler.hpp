@@ -3,16 +3,21 @@
 #include <alsa/asoundlib.h>
 #include <iostream>
 #include <vector>
+#include <thread>
 
 class Sampler {
 public:
-    Sampler(int sampleRate, int bufferSize);
+    Sampler(int sampleRate, int bufferSize,std::vector<float>& output_array);
     ~Sampler();
-    void read_audio(std::vector<float>& output_array);
 
 private:
     int sampleRate;
     int bufferSize;
     snd_pcm_t* capture_handle;
+    std::vector<float>& audio_smp;
+    std::thread audio_thread_handle_;
+    bool done;
+
+    void read_audio_thread();
 };
 #endif

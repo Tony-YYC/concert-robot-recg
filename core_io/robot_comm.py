@@ -1,8 +1,18 @@
 from flask import Flask
+import signal
 import robot
 
 app = Flask(__name__)
 recg = robot.Recg()
+
+def signal_handler(signal, frame):
+    global recg
+    del recg
+    print("flask server terminated")
+    exit()
+
+signal.signal(signal.SIGINT, signal_handler)
+
 @app.route('/robot')
 def handle_request():
     beat_result, emo_result = recg.get_result()
